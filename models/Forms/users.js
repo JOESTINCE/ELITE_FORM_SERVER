@@ -14,10 +14,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(100),
         allowNull: false
       },
-      userName: {
-        type: DataTypes.STRING(100),
-        allowNull: false
-      },
       password: {
         type: DataTypes.STRING,
         allowNull: false
@@ -33,16 +29,18 @@ module.exports = (sequelize, DataTypes) => {
   Model.beforeSave(async (user, options) => {
     let err;
     if (user.changed('password')) {
-      let rounds = crypto.randomInt(4, 10);
-      bcrypt.genSalt(rounds).then((salt)=>{
-        bcrypt.hash(user.password, salt).then((hash)=>{
-          user.password = hash;
-        }, (error)=>{
-          console.log("Error in hash method in encryption", error?.message);
-        })
-      }, (error)=>{
-        console.log('Error in encryption in user account', error?.message);
-      })
+      try{
+        let rounds = crypto.randomInt(4, 10);
+        const salt = await bcrypt.genSalt(rounds)
+        const hash = await bcrypt.hash(user.password, salt)
+        user.password = hash;
+      }
+      catch(err){
+        if(err){
+          console.log('Error in hashing password', err.message);
+        }
+      }
+     
     };
   });
   // Model.prototype.getJWT = async function (){

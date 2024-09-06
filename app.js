@@ -12,6 +12,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+//passport
+app.use(async function (req, res, next) {
+
+  if (req && req.headers && req.headers.authorization) {
+    try{
+      req.headers.authorization = await require('./services/common.service').decrypt(req.headers.authorization);
+    }
+    catch(error){
+      console.log('Error in token decryption', error.message);
+    }
+  };
+  next();
+});
 //sequelize db connection
 models.sequelize
   .authenticate()
