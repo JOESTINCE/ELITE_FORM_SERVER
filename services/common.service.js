@@ -10,14 +10,14 @@ const getJWT = function (user, key) {
 module.exports.getJWT = getJWT;
 
 
-const encrypt = async function (plaintext) {
+const encrypt = function (plaintext) {
   let ciphertext;
   ciphertext = CryptoJs.AES.encrypt(plaintext.toString(), CONFIG.secret_key).toString();
   return ciphertext;
 };
 module.exports.encrypt = encrypt;
 
-const decrypt = async function (ciphertext) {
+const decrypt = function (ciphertext) {
   let plaintext;
   const bytes = CryptoJs.AES.decrypt(ciphertext.toString(), CONFIG.secret_key);
   plaintext = bytes.toString(CryptoJs.enc.Utf8);

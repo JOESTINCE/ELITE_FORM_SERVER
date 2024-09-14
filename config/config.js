@@ -9,3 +9,7 @@ CONFIG.db_password = process.env.DB_PASSWORD;
 CONFIG.db_dialect = process.env.DB_DIALECT;
 CONFIG.secret_key = process.env.SECRET_KEY;
 CONFIG.jwt_expiration = process.env.JWT_EXPIRATION;
+CONFIG.mongo_db_name = process.env.MONGO_DB_NAME;
+CONFIG.mongo_db_host = process.env.MONGO_DB_HOST;
+CONFIG.mongo_db_port = process.env.MONGO_DB_PORT;
+CONFIG.jwt_encryption = process.env.JWT_ENCRYPTION;

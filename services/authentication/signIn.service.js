@@ -14,12 +14,12 @@ const signInUsers = async function (query) {
       const isPasswordValid = await Bcrypt.compare(query.password, data.password);
 
       if (isPasswordValid) {
-        const jwtToken = await CommonService.getJWT({email: data?.email, password: data?.password}, CONFIG.secret_key) ;
+        const jwtToken = CommonService.getJWT({email: data?.email, password: data?.password}, CONFIG.secret_key) ;
         let encryptedToken;
         if(jwtToken){
-          encryptedToken = await CommonService.encrypt(jwtToken);
+          encryptedToken = CommonService.encrypt(jwtToken);
         }
-        return { message: 'LOGIN_SUCCESSFUL', token: encryptedToken };
+        return { message: 'LOGIN_SUCCESSFUL', token: encryptedToken, userId: data?.id };
       } else {
         return 'INVALID_CREDENTIALS';
       }
