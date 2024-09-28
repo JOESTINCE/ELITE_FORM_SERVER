@@ -17,9 +17,11 @@ const saveFormResponse = async function(body){
         if(createFormResponseInstance){
           const createForm = await createFormResponseInstance?.save();
           if(createForm){
+            console.log(formDetails)
             const createFormResponse = await FormResponse.create({
               title: formDetails?.title,
               description: formDetails?.description,
+              emailId: body?.emailId,
               formId: formDetails?.id,
               formDetailsId: formDetails?.formDetailsId,
               formResponseDetailsId: createForm?._id?.toString(),
@@ -60,4 +62,29 @@ const getAllFormResponse = async function(query){
      throw new Error(err?.message)
   }
 }
+
+const getOneFormResponse = async function (id) {
+  try {
+    const formResponse = await FormResponse.findOne({
+      where:{
+        formResponseDetailsId: id,
+        isDeleted: false
+      }
+    })
+    if(formResponse){
+      const formDetails = await FormResponseDetails.findOne({ _id: id, isDeleted: false });
+      if (formDetails) {
+        formDetails['formResponse']['title'] = formResponse?.title;
+        formDetails['formResponse']['description'] = formResponse?.description;
+        console.log(formDetails);
+        return formDetails;
+      }
+    }
+   
+  } catch (err) {
+    throw new Error(err?.message);
+  }
+}
+module.exports.getOneFormResponse = getOneFormResponse;
+
 module.exports.getAllFormResponse = getAllFormResponse;

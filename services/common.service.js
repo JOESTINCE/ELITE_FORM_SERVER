@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const CryptoJs = require('crypto-js');
+const FormResponse = require('../models').formResponse;
 
 const getJWT = function (user, key) {
   //convert a string to integer
@@ -24,3 +25,20 @@ const decrypt = function (ciphertext) {
   return plaintext;
 };
 module.exports.decrypt = decrypt;
+const checkEmailDuplication = async function(query){
+try {
+  const emailExist = await FormResponse.findOne({
+    where:{
+      emailId: query?.emailId,
+      userId: query?.userId,
+      formDetailsId: query?.formDetailsId,
+      isDeleted: false
+    },
+    attributes:['id']
+  })
+  return emailExist;
+} catch (err) {
+  throw new Error(err?.message)
+}
+}
+module.exports.checkEmailDuplication = checkEmailDuplication;

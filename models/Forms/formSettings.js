@@ -1,7 +1,6 @@
-
 module.exports = (sequelize, DataTypes) => {
   let Model = sequelize.define(
-    'formResponse',
+    'formSettings',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -9,28 +8,23 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: true
       },
-      emailId:{
-        type: DataTypes.STRING(40)
-      },
-      title: {
-        type: DataTypes.STRING(100),
-        allowNull: false
-      },
-      description: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      formDetailsId: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      formResponseDetailsId: {
+      formDetailsId:{
         type: DataTypes.STRING,
         allowNull: false
       },
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false
+      },
+      submissionHeader:{
+        type: DataTypes.STRING
+      },
+      submissionMessage:{
+        type: DataTypes.STRING
+
+      },
+      allowMultipleResponse:{
+        type: DataTypes.BOOLEAN
       },
       isDeleted: {
         type: DataTypes.BOOLEAN,
@@ -47,14 +41,11 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      tableName: 'formResponse',
+      tableName: 'formSettings',
       schema: 'Forms',
       underScored: false,
       timeStamp: true
     }
   )
-  Model.association = (models) => {
-    Model.belongsTo(models.forms, { foreignKey: 'formId' });
-  }
   return Model
 }

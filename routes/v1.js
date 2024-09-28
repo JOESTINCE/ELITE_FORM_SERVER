@@ -8,6 +8,8 @@ try{
   router.use('/forms/', require('../controllers/forms/forms.controller').router);
   router.use('/formresponse/', require('../controllers/forms/formResponse.controller').router);
   router.use('/dashboard/', require('../controllers/dashboard/dashboard.controller').router);
+  router.use('/settings', require('../controllers/forms/formSettings.controller').router);
+  router.use('/common', require('../controllers/common.controller').router);
 
 
 }

@@ -1,5 +1,6 @@
 const FormDetails = require('../../mongoDbModels/formDetails');
 const Forms = require('../../models').forms;
+const FormSettings = require('../../models').formSettings;
 
 
 const createForm = async function (body) {
@@ -88,7 +89,17 @@ const getOneForm = async function(id){
   try {
     const formDetails = await FormDetails.findOne({_id: id, isDeleted: false});
     if(formDetails){
-      return formDetails;
+      const formSettings = await FormSettings.findOne({
+        where:{
+          formDetailsId: formDetails?._id?.toString(),
+          isDeleted: false
+        }
+      })
+      let response = formDetails.toObject()
+      if(formSettings){
+        Object.assign(response, { formSettings: formSettings } )
+      }
+      return response;
     }
   } catch (err) {
     throw new Error(err?.message);
