@@ -16,14 +16,20 @@ let sequelize = new Sequelize(
     host: CONFIG.db_host,
     dialect: CONFIG.db_dialect,
     port: CONFIG.db_port,
-    logging: false,
+    logging: true,
     define: {
       timestamps: false,
       underscored: true,
     },
     dialectOptions: {
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false
+        },
       useUTC: true,
     },
+  }
   }
 );
 
